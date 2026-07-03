@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elias Diaz Gutierrez — Think Outside the Fierrewall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #060808;
+  --bg2:       #0a0f0b;
+  --bg3:       #0f1510;
+  --border:    #1a2e1c;
+  --accent:    #39ff14;   /* verde neón */
+  --accent2:   #dc143c;   /* carmesí */
+  --accent3:   #ff6a00;   /* naranja */
+  --accent4:   #a8ff3e;   /* verde claro secundario */
+  --text:      #c8d8c9;
+  --text-dim:  #4a6b4d;
+  --text-bright:#eafaea;
+  --mono: 'Share Tech Mono', monospace;
+  --display: 'Syne', sans-serif;
+  --body: 'Inter', sans-serif;
+  --glow-g: 0 0 18px rgba(57,255,20,0.35);
+  --glow-r: 0 0 18px rgba(220,20,60,0.35);
+  --glow-o: 0 0 18px rgba(255,106,0,0.35);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* scanlines */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 2px,
+    rgba(57,255,20,0.015) 2px, rgba(57,255,20,0.015) 4px
+  );
+  pointer-events:none;
+  z-index:9999;
+}
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0;
+  background: rgba(6,8,8,0.93);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  z-index:200;
+  padding: 0 5vw;
+  display:flex; align-items:center; justify-content:space-between;
+  height:56px;
+}
+.nav-logo {
+  font-family:var(--mono);
+  color:var(--accent);
+  font-size:13px;
+  letter-spacing:0.05em;
+  text-shadow: var(--glow-g);
+}
+.nav-logo span { color:var(--text-dim); }
+.nav-links { display:flex; gap:24px; list-style:none; }
+.nav-links a {
+  font-family:var(--mono); font-size:11px;
+  color:var(--text-dim); text-decoration:none;
+  letter-spacing:0.12em; text-transform:uppercase;
+  transition:color 0.2s, text-shadow 0.2s;
+}
+.nav-links a:hover { color:var(--accent); text-shadow:var(--glow-g); }
+
+.lang-toggle {
+  display:flex;
+  border:1px solid var(--border); border-radius:3px; overflow:hidden;
+}
+.lang-btn {
+  font-family:var(--mono); font-size:11px;
+  padding:4px 10px; background:transparent; border:none;
+  color:var(--text-dim); cursor:pointer; transition:all 0.2s;
+  letter-spacing:0.1em;
+}
+.lang-btn.active { background:var(--accent); color:var(--bg); }
+
+/* ── HERO ── */
+.hero {
+  min-height:100vh;
+  padding:120px 5vw 80px;
+  display:grid;
+  grid-template-columns: 1fr auto;
+  gap:48px;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero-content { display:flex; flex-direction:column; justify-content:center; }
+
+/* animated grid */
+.hero::after {
+  content:'';
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:60px 60px;
+  opacity:0.3;
+  pointer-events:none;
+}
+
+/* glowing corner accents */
+.hero::before {
+  content:'';
+  position:absolute;
+  top:80px; left:0;
+  width:40vw; height:40vw;
+  background: radial-gradient(ellipse at top left,
+    rgba(57,255,20,0.07) 0%, transparent 65%);
+  pointer-events:none;
+}
+
+.hero-tag {
+  font-family:var(--mono); font-size:12px;
+  color:var(--accent); letter-spacing:0.2em;
+  text-transform:uppercase; margin-bottom:20px;
+  opacity:0; animation:fadeUp 0.6s 0.2s forwards;
+}
+.hero-name {
+  font-family:var(--display);
+  font-size:clamp(44px,7vw,88px);
+  font-weight:800; line-height:0.95;
+  color:var(--text-bright);
+  letter-spacing:-0.02em; margin-bottom:20px;
+  opacity:0; animation:fadeUp 0.6s 0.35s forwards;
+}
+.hero-name .outline {
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--accent);
+  text-shadow: none;
+}
+.hero-name .outline2 {
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--accent3);
+}
+.hero-tagline {
+  font-family:var(--mono);
+  font-size:clamp(13px,1.8vw,17px);
+  color:var(--accent); margin-bottom:28px;
+  opacity:0; animation:fadeUp 0.6s 0.5s forwards;
+  text-shadow:var(--glow-g);
+}
+.hero-tagline::before { content:'// '; color:var(--text-dim); }
+
+.hero-roles {
+  display:flex; flex-wrap:wrap; gap:8px;
+  margin-bottom:40px;
+  opacity:0; animation:fadeUp 0.6s 0.65s forwards;
+}
+.role-tag {
+  font-family:var(--mono); font-size:10px;
+  letter-spacing:0.12em; text-transform:uppercase;
+  padding:5px 12px;
+  border:1px solid var(--border); color:var(--text-dim);
+  border-radius:2px; transition:all 0.2s;
+}
+.role-tag.g { border-color:var(--accent); color:var(--accent); }
+.role-tag.r { border-color:var(--accent2); color:var(--accent2); }
+.role-tag.o { border-color:var(--accent3); color:var(--accent3); }
+
+.hero-links {
+  display:flex; gap:14px; flex-wrap:wrap;
+  opacity:0; animation:fadeUp 0.6s 0.8s forwards;
+}
+.btn {
+  font-family:var(--mono); font-size:11px;
+  letter-spacing:0.1em; text-transform:uppercase;
+  padding:11px 22px; text-decoration:none; border-radius:2px;
+  transition:all 0.25s; display:inline-block;
+}
+.btn-green { background:var(--accent); color:var(--bg); border:1px solid var(--accent); }
+.btn-green:hover { background:transparent; color:var(--accent); box-shadow:var(--glow-g); }
+.btn-red { background:var(--accent2); color:#fff; border:1px solid var(--accent2); }
+.btn-red:hover { background:transparent; color:var(--accent2); box-shadow:var(--glow-r); }
+.btn-ghost { background:transparent; color:var(--text-dim); border:1px solid var(--border); }
+.btn-ghost:hover { border-color:var(--accent3); color:var(--accent3); }
+
+/* hero photo */
+.hero-photo-wrap {
+  opacity:0; animation:fadeUp 0.7s 0.5s forwards;
+  position:relative; z-index:1;
+  display:flex; align-items:center; justify-content:center;
+}
+.hero-photo {
+  width:260px; height:320px;
+  object-fit:cover;
+  border:2px solid var(--accent);
+  box-shadow: var(--glow-g), inset 0 0 30px rgba(57,255,20,0.05);
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  display:block;
+}
+.hero-photo-placeholder {
+  width:260px; height:320px;
+  border:2px solid var(--accent);
+  box-shadow:var(--glow-g);
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  background:var(--bg2);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
+}
+.hero-photo-placeholder span {
+  font-family:var(--mono); font-size:11px;
+  color:var(--text-dim); letter-spacing:0.15em;
+  text-transform:uppercase;
+}
+/* corner decorations on photo */
+.hero-photo-wrap::before, .hero-photo-wrap::after {
+  content:'';
+  position:absolute;
+  width:16px; height:16px;
+  border-color:var(--accent3);
+  border-style:solid;
+}
+.hero-photo-wrap::before { top:-6px; right:-6px; border-width:2px 2px 0 0; }
+.hero-photo-wrap::after  { bottom:-6px; left:-6px; border-width:0 0 2px 2px; }
+
+/* cursor blink */
+.cursor {
+  display:inline-block; width:9px; height:1em;
+  background:var(--accent); vertical-align:text-bottom;
+  animation:blink 1s step-end infinite;
+  box-shadow:var(--glow-g);
+}
+@keyframes blink { 50% { opacity:0; } }
+
+/* ── SECTIONS ── */
+section { padding:80px 5vw; border-top:1px solid var(--border); }
+
+.section-header {
+  display:flex; align-items:baseline; gap:16px; margin-bottom:48px;
+}
+.section-label {
+  font-family:var(--mono); font-size:11px;
+  color:var(--accent); letter-spacing:0.2em; text-transform:uppercase;
+}
+.section-title {
+  font-family:var(--display);
+  font-size:clamp(26px,3.5vw,42px);
+  font-weight:800; color:var(--text-bright); letter-spacing:-0.02em;
+}
+.section-line { flex:1; height:1px; background:var(--border); margin-left:16px; }
+
+/* ── ABOUT ── */
+.about-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:48px; align-items:start;
+}
+.about-text p { color:var(--text); margin-bottom:16px; font-size:15px; line-height:1.8; }
+.about-text .hl-g { color:var(--accent); font-weight:500; }
+.about-text .hl-r { color:var(--accent2); font-weight:500; }
+.about-text .hl-o { color:var(--accent3); font-weight:500; }
+
+.stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.stat-box {
+  background:var(--bg2); border:1px solid var(--border);
+  padding:18px; border-radius:3px;
+  transition:border-color 0.3s, box-shadow 0.3s;
+}
+.stat-box:hover { border-color:var(--accent); box-shadow:var(--glow-g); }
+.stat-num {
+  font-family:var(--display); font-size:34px; font-weight:800;
+  color:var(--accent); line-height:1; margin-bottom:4px;
+}
+.stat-num.red { color:var(--accent2); }
+.stat-num.ora { color:var(--accent3); }
+.stat-label {
+  font-family:var(--mono); font-size:10px;
+  color:var(--text-dim); letter-spacing:0.15em; text-transform:uppercase;
+}
+
+/* ── PROJECTS 3D CARDS ── */
+.projects-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(300px,1fr));
+  gap:22px;
+  perspective:1000px;
+}
+
+.project-card {
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:4px; overflow:hidden;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform 0.1s ease, border-color 0.3s, box-shadow 0.3s;
+  cursor:pointer;
+}
+.project-card:hover {
+  border-color:var(--accent);
+  box-shadow: var(--glow-g), 0 20px 60px rgba(0,0,0,0.5);
+}
+.project-card.red-card:hover { border-color:var(--accent2); box-shadow:var(--glow-r), 0 20px 60px rgba(0,0,0,0.5); }
+.project-card.ora-card:hover { border-color:var(--accent3); box-shadow:var(--glow-o), 0 20px 60px rgba(0,0,0,0.5); }
+
+/* sheen overlay */
+.project-card::after {
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 50%);
+  pointer-events:none; border-radius:4px;
+  opacity:0; transition:opacity 0.3s;
+}
+.project-card:hover::after { opacity:1; }
+
+.project-img {
+  width:100%; height:170px;
+  background:var(--bg3);
+  display:flex; align-items:center; justify-content:center;
+  border-bottom:1px solid var(--border);
+  position:relative; overflow:hidden;
+}
+.project-img a {
+  display:block; width:100%; height:100%;
+  position:relative;
+}
+.project-img img {
+  width:100%; height:100%; object-fit:cover;
+  transition:transform 0.4s;
+}
+.project-card:hover .project-img img { transform:scale(1.05); }
+
+.project-img-placeholder {
+  font-family:var(--mono); font-size:10px;
+  color:var(--text-dim); letter-spacing:0.15em; text-transform:uppercase;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+}
+.project-img-placeholder .ph-icon { font-size:28px; opacity:0.3; }
+
+.project-status {
+  position:absolute; top:10px; right:10px;
+  font-family:var(--mono); font-size:9px;
+  letter-spacing:0.15em; text-transform:uppercase;
+  padding:3px 7px; border-radius:2px;
+}
+.s-dev   { background:rgba(220,20,60,0.18);  color:var(--accent2); border:1px solid var(--accent2); }
+.s-done  { background:rgba(57,255,20,0.12);  color:var(--accent);  border:1px solid var(--accent); }
+.s-con   { background:rgba(255,106,0,0.14);  color:var(--accent3); border:1px solid var(--accent3); }
+.s-hold  { background:rgba(100,100,100,0.14); color:#888; border:1px solid #444; }
+
+.project-body { padding:18px 20px; }
+.project-name {
+  font-family:var(--display); font-size:19px; font-weight:700;
+  color:var(--text-bright); margin-bottom:8px;
+}
+.project-desc { font-size:13px; color:var(--text-dim); line-height:1.7; margin-bottom:14px; }
+.project-tags { display:flex; flex-wrap:wrap; gap:5px; }
+.tag {
+  font-family:var(--mono); font-size:9px;
+  padding:3px 7px;
+  background:rgba(57,255,20,0.06);
+  color:var(--accent); border-radius:2px;
+  letter-spacing:0.08em;
+}
+.tag.red { background:rgba(220,20,60,0.08); color:var(--accent2); }
+.tag.ora { background:rgba(255,106,0,0.08); color:var(--accent3); }
+
+/* ── SKILLS ── */
+.skills-wrap { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+.skills-col-title {
+  font-family:var(--mono); font-size:11px;
+  color:var(--accent); letter-spacing:0.2em; text-transform:uppercase;
+  margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--border);
+}
+.skills-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.skill-item {
+  background:var(--bg2); border:1px solid var(--border);
+  padding:12px 16px; border-radius:3px;
+  font-family:var(--mono); font-size:12px; color:var(--text);
+  display:flex; align-items:center; gap:10px;
+  transition:border-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.skill-item:hover { border-color:var(--accent); color:var(--text-bright); box-shadow:var(--glow-g); }
+.skill-dot { width:5px; height:5px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+.skill-dot.red { background:var(--accent2); }
+.skill-dot.ora { background:var(--accent3); }
+
+.soft-box {
+  margin-top:28px; padding:22px 26px;
+  background:var(--bg2); border:1px solid var(--border);
+  border-left:3px solid var(--accent); border-radius:3px;
+}
+.soft-box p { font-size:14px; color:var(--text); line-height:1.8; }
+
+/* ── LANGUAGES ── */
+.lang-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:14px;
+}
+.lang-card {
+  background:var(--bg2); border:1px solid var(--border);
+  padding:20px; border-radius:3px;
+  transition:border-color 0.2s, box-shadow 0.2s;
+}
+.lang-card:hover { border-color:var(--accent3); box-shadow:var(--glow-o); }
+.lang-name {
+  font-family:var(--display); font-size:18px; font-weight:700;
+  color:var(--text-bright); margin-bottom:6px;
+}
+.lang-level {
+  font-family:var(--mono); font-size:10px;
+  letter-spacing:0.15em; text-transform:uppercase;
+}
+.lv-native  { color:var(--accent); }
+.lv-adv     { color:var(--accent4); }
+.lv-basic   { color:var(--accent3); }
+.lv-beg     { color:var(--accent2); }
+.lang-bar { margin-top:10px; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
+.lang-fill { height:100%; border-radius:2px; transition:width 0.8s 0.3s; }
+.fill-native { width:100%; background:var(--accent); box-shadow:var(--glow-g); }
+.fill-adv    { width:80%; background:var(--accent4); }
+.fill-basic  { width:40%; background:var(--accent3); }
+.fill-beg    { width:20%; background:var(--accent2); }
+
+/* ── CERTS ── */
+.cert-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+.cert-col-title {
+  font-family:var(--mono); font-size:11px; color:var(--accent);
+  letter-spacing:0.2em; text-transform:uppercase;
+  margin-bottom:20px; padding-bottom:10px; border-bottom:1px solid var(--border);
+}
+.cert-item {
+  display:flex; align-items:flex-start; gap:12px;
+  padding:12px 0; border-bottom:1px solid rgba(26,46,28,0.5);
+}
+.cert-icon {
+  width:34px; height:34px; background:var(--bg3);
+  border:1px solid var(--border); border-radius:3px;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  font-family:var(--mono); font-size:8px; color:var(--accent);
+  letter-spacing:0.04em; text-align:center; line-height:1.2;
+}
+.cert-name { font-size:13px; color:var(--text-bright); line-height:1.4; margin-bottom:2px; }
+.cert-issuer { font-family:var(--mono); font-size:10px; color:var(--text-dim); letter-spacing:0.1em; }
+.cert-badge { margin-left:auto; flex-shrink:0; font-family:var(--mono); font-size:9px; padding:2px 7px; border-radius:2px; letter-spacing:0.08em; }
+.bd-done { background:rgba(57,255,20,0.1); color:var(--accent); border:1px solid var(--accent); }
+.bd-prog { background:rgba(220,20,60,0.1); color:var(--accent2); border:1px solid var(--accent2); }
+
+/* ── EDUCATION ── */
+.edu-list { display:flex; flex-direction:column; gap:16px; }
+.edu-card {
+  background:var(--bg2); border:1px solid var(--border);
+  border-left:3px solid var(--accent);
+  padding:24px 28px; border-radius:3px;
+  display:flex; justify-content:space-between; align-items:flex-start; gap:20px;
+  transition:box-shadow 0.3s;
+}
+.edu-card:hover { box-shadow:var(--glow-g); }
+.edu-card.ora { border-left-color:var(--accent3); }
+.edu-card.ora:hover { box-shadow:var(--glow-o); }
+.edu-school { font-family:var(--display); font-size:20px; font-weight:700; color:var(--text-bright); margin-bottom:4px; }
+.edu-degree { font-size:13px; color:var(--text); margin-bottom:4px; }
+.edu-meta { font-family:var(--mono); font-size:10px; color:var(--text-dim); letter-spacing:0.12em; }
+.edu-prog { text-align:right; flex-shrink:0; }
+.edu-prog-num { font-family:var(--display); font-size:36px; font-weight:800; color:var(--accent); line-height:1; }
+.edu-prog-num.ora { color:var(--accent3); }
+.edu-prog-lbl { font-family:var(--mono); font-size:9px; color:var(--text-dim); letter-spacing:0.12em; text-transform:uppercase; }
+
+/* ── CONTACT ── */
+.contact-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px; }
+.contact-card {
+  background:var(--bg2); border:1px solid var(--border);
+  padding:18px 22px; border-radius:3px; text-decoration:none;
+  display:flex; align-items:center; gap:16px;
+  transition:border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.contact-card:hover { border-color:var(--accent); transform:translateX(4px); box-shadow:var(--glow-g); }
+.contact-icon { font-family:var(--mono); font-size:20px; width:36px; text-align:center; flex-shrink:0; color:var(--accent); }
+.contact-label { font-family:var(--mono); font-size:9px; color:var(--text-dim); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:2px; }
+.contact-value { font-size:13px; color:var(--text-bright); }
+
+/* ── FOOTER ── */
+footer {
+  padding:28px 5vw; border-top:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
+}
+footer p { font-family:var(--mono); font-size:11px; color:var(--text-dim); letter-spacing:0.1em; }
+.acc { color:var(--accent); }
+.acc-r { color:var(--accent2); }
+.acc-o { color:var(--accent3); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(22px); }
+  to   { opacity:1; transform:none; }
+}
+.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.6s, transform 0.6s; }
+.reveal.visible { opacity:1; transform:none; }
+
+/* ── LANG SWITCH ── */
+.lang-es .en { display:none; }
+.lang-en .es { display:none; }
+
+/* ── COMING SOON placeholder ── */
+.coming-soon-card {
+  background:var(--bg2); border:1px dashed var(--border);
+  border-radius:4px; padding:32px;
+  display:flex; align-items:center; justify-content:center;
+  min-height:180px;
+}
+.coming-soon-inner { text-align:center; }
+.coming-soon-inner .cs-title {
+  font-family:var(--display); font-size:18px; font-weight:700;
+  color:var(--text-dim); margin-bottom:6px;
+}
+.coming-soon-inner .cs-sub {
+  font-family:var(--mono); font-size:10px;
+  color:var(--text-dim); letter-spacing:0.15em; text-transform:uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px) {
+  .hero { grid-template-columns:1fr; }
+  .hero-photo-wrap { display:none; }
+  .about-grid { grid-template-columns:1fr; }
+  .cert-grid { grid-template-columns:1fr; }
+  .skills-wrap { grid-template-columns:1fr; }
+  .nav-links { display:none; }
+}
+</style>
+</head>
+<body class="lang-es">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">elias<span>@regolith</span>:~$<span class="cursor"></span></div>
+  <ul class="nav-links">
+    <li><a href="#about" class="es">Sobre mí</a><a href="#about" class="en">About</a></li>
+    <li><a href="#projects" class="es">Proyectos</a><a href="#projects" class="en">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#langs" class="es">Idiomas</a><a href="#langs" class="en">Languages</a></li>
+    <li><a href="#certs" class="es">Certs</a><a href="#certs" class="en">Certs</a></li>
+    <li><a href="#education" class="es">Edu</a><a href="#education" class="en">Edu</a></li>
+    <li><a href="#diploma" class="es">Diploma</a><a href="#diploma" class="en">Diploma</a></li><li><a href="#contact" class="es">Contacto</a><a href="#contact" class="en">Contact</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-content">
+
+
+    <h1 class="hero-name">
+      Elias
+      <span class="outline">Diaz</span>
+      <span class="outline2">Gutierrez</span>
+    </h1>
+
+    <div class="hero-tagline">Think outside the fierrewall</div>
+
+    <div class="hero-roles">
+      <span class="role-tag g es">Especialista en Ciberseguridad</span>
+      <span class="role-tag g en">Cybersecurity Specialist</span>
+      <span class="role-tag r es">Desarrollador de Software</span>
+      <span class="role-tag r en">Software Developer</span>
+      <span class="role-tag o es">Especialista en la Nube</span>
+      <span class="role-tag o en">Cloud Specialist</span>
+    </div>
+
+    <div class="hero-links">
+      <a href="#projects" class="btn btn-green es">Ver proyectos →</a>
+      <a href="#projects" class="btn btn-green en">View projects →</a>
+      <a href="https://github.com/Ely-Retr0" target="_blank" class="btn btn-red">GitHub</a>
+      <a href="#contact" class="btn btn-ghost es">Contactar</a>
+      <a href="#contact" class="btn btn-ghost en">Contact</a>
+    </div>
+  </div>
+
+  <div class="hero-photo-wrap">
+    <img src="elias.jpg" alt="Elias Diaz Gutierrez" class="hero-photo">
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-label">01</span>
+    <h2 class="section-title es">Sobre mí</h2>
+    <h2 class="section-title en">About me</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p class="es">Hola, soy <span class="hl-g">Elias Diaz Gutierrez</span>, tengo 18 años, soy estudiante de la
+        <span class="hl-g">Escuela Politécnica de Guadalajara</span> cursando la carrera técnica de
+        <span class="hl-o">Tecnólogo Profesional en Sistemas Informáticos (TPSI)</span>, pero estoy estudiando
+        por mi cuenta las áreas de <span class="hl-r">Inteligencia Artificial, Ciberseguridad, Computación en la Nube,
+        Programación a bajo y alto nivel, Redes</span>, etc.</p>
+      <p class="en">Hi, I'm <span class="hl-g">Elias Diaz Gutierrez</span>, I'm 18 years old, a student at
+        <span class="hl-g">Escuela Politécnica de Guadalajara</span> pursuing a technical degree in
+        <span class="hl-o">Professional Technologist in Computer Systems (TPSI)</span>, while self-studying
+        <span class="hl-r">Artificial Intelligence, Cybersecurity, Cloud Computing, Low & High Level Programming,
+        Networking</span>, and more.</p>
+
+      <p class="es">Soy alguien <span class="hl-g">demasiado curioso e intenso</span>, y eso me ayuda a seguir
+        estudiando y aprendiendo cosas nuevas todos los días. Soy alguien que
+        <span class="hl-r">no para hasta que consigue su objetivo</span> y procura siempre hacerlo bien.</p>
+      <p class="en">I'm someone <span class="hl-g">extremely curious and intense</span>, and that drives me to keep
+        studying and learning new things every day. I'm someone who
+        <span class="hl-r">doesn't stop until the goal is achieved</span> and always strives to do it right.</p>
+
+      <p class="es">Aunque aún no tengo experiencia laboral formal, estoy
+        <span class="hl-r">más que listo para demostrar mis conocimientos</span> y sumarme a un equipo
+        que valore la iniciativa, persistencia y el aprendizaje constante.</p>
+      <p class="en">While I don't have formal work experience yet, I am
+        <span class="hl-r">more than ready to prove my skills</span> and join a team that values
+        initiative, persistence, and continuous learning.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-num">10+</div>
+        <div class="stat-label es">Certificaciones</div>
+        <div class="stat-label en">Certifications</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num red">7°</div>
+        <div class="stat-label es">Semestre activo</div>
+        <div class="stat-label en">Active semester</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num ora">8+</div>
+        <div class="stat-label es">Proyectos propios</div>
+        <div class="stat-label en">Own projects</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">3</div>
+        <div class="stat-label es">Áreas de expertise</div>
+        <div class="stat-label en">Areas of expertise</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS PRINCIPALES -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-label">02</span>
+    <h2 class="section-title es">Proyectos Principales</h2>
+    <h2 class="section-title en">Main Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <!-- AztecOS -->
+    <div class="project-card" data-tilt>
+      <div class="project-img">
+        <a href="https://github.com/Ely-Retr0/AztecOS" target="_blank"><img src="aztec-os.png" alt="AztecOS"></a>
+        <span class="project-status s-dev es">En desarrollo</span>
+        <span class="project-status s-dev en">In dev</span>
+      </div>
+      <div class="project-body">
+        <div class="project-name">AztecOS</div>
+        <p class="project-desc es">Distro Linux basada en Debian que combina ciberseguridad, rendimiento y estética. Para usuarios que exigen seguridad real y control total de su sistema.</p>
+        <p class="project-desc en">Debian-based Linux distro combining cybersecurity, performance & aesthetics. Built for users who demand real security and full system control.</p>
+        <div class="project-tags">
+          <span class="tag">Linux</span><span class="tag">Debian</span><span class="tag">OS Dev</span><span class="tag">Security</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TLALOC -->
+    <div class="project-card" data-tilt>
+      <div class="project-img">
+        <a href="https://github.com/Ely-Retr0/TLALOC" target="_blank"><img src="tlaloc.png" alt="TLALOC"></a>
+        <span class="project-status s-dev es">En desarrollo</span>
+        <span class="project-status s-dev en">In dev</span>
+      </div>
+      <div class="project-body">
+        <div class="project-name">TLALOC</div>
+        <p class="project-desc es">Lenguaje de programación de bajo nivel (.tloc) — alternativa intermedia entre C y Python, con arquitectura más simple que Rust pero igual de poderoso.</p>
+        <p class="project-desc en">Low-level programming language (.tloc) — intermediate alternative between C and Python, simpler architecture than Rust but just as powerful.</p>
+        <div class="project-tags">
+          <span class="tag">Lang Design</span><span class="tag">Low-level</span><span class="tag">.tloc</span><span class="tag">Compilers</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GDTA -->
+    <div class="project-card" data-tilt>
+      <div class="project-img">
+        <a href="https://github.com/Ely-Retr0/GDTA_COMPLETO" target="_blank"><img src="gdta.jpg" alt="GDTA"></a>
+        <span class="project-status s-done es">Completado</span>
+        <span class="project-status s-done en">Completed</span>
+      </div>
+      <div class="project-body">
+        <div class="project-name">GDTA</div>
+        <p class="project-desc es">Sistema digital de administración de taller automotriz integrado con IA para automatizar y optimizar la gestión del negocio.</p>
+        <p class="project-desc en">AI-integrated digital management system for auto repair shops, automating and optimizing business operations.</p>
+        <div class="project-tags">
+          <span class="tag">AI</span><span class="tag">Python</span><span class="tag">MySQL</span><span class="tag">Management</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGO -->
+    <div class="project-card" data-tilt>
+      <div class="project-img">
+        <a href="https://github.com/Ely-Retr0/REGO" target="_blank"><img src="rego.png" alt="REGO"></a>
+        <span class="project-status s-done es">Completado</span>
+        <span class="project-status s-done en">Completed</span>
+      </div>
+      <div class="project-body">
+        <div class="project-name">REGO</div>
+        <p class="project-desc es">IA local entrenada como analista de ciberseguridad Purple Team — integrando perspectivas ofensivas y defensivas en un solo agente.</p>
+        <p class="project-desc en">Local AI trained as a Purple Team cybersecurity analyst — integrating offensive and defensive perspectives into a single agent.</p>
+        <div class="project-tags">
+          <span class="tag">Local AI</span><span class="tag">Purple Team</span><span class="tag">MITRE</span><span class="tag">Python</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pi Vulnerability Scanner -->
+    <div class="project-card" data-tilt>
+      <div class="project-img">
+        <a href="https://github.com/Ely-Retr0/SVP" target="_blank"><img src="scanner.png" alt="Pi Scanner"></a>
+        <span class="project-status s-dev es">En desarrollo</span>
+        <span class="project-status s-dev en">In dev</span>
+      </div>
+      <div class="project-body">
+        <div class="project-name">SVP — Escáner de Vulnerabilidades de Pi</div>
+        <p class="project-desc es">Raspberry Pi con módulo de antena que escanea dispositivos cercanos y consulta la base de datos global de CVEs. Integración con micro-IA local en curso.</p>
+        <p class="project-desc en">Raspberry Pi with antenna module scanning nearby devices against the global CVE database. Local micro-AI integration in progress.</p>
+        <div class="project-tags">
+          <span class="tag">Raspberry Pi</span><span class="tag">Network</span><span class="tag">CVE</span><span class="tag">AI</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pi Pentesting Sandbox -->
+    <div class="project-card" data-tilt>
+      <div class="project-img">
+        <a href="https://github.com/Ely-Retr0/SPS" target="_blank"><img src="pi-sandbox.png" alt="Pi Sandbox"></a>
+        <span class="project-status s-dev es">En desarrollo</span>
+        <span class="project-status s-dev en">In dev</span>
+      </div>
+      <div class="project-body">
+        <div class="project-name">SPS — Sandbox Pentest Server</div>
+        <p class="project-desc es">Mini servidor en Raspberry Pi estilo sandbox para hacer pentesting real sin necesidad de plataformas externas. Laboratorio portátil de hacking ético.</p>
+        <p class="project-desc en">Raspberry Pi sandbox server for real pentesting without external platforms. Portable ethical hacking lab.</p>
+        <div class="project-tags">
+          <span class="tag">Raspberry Pi</span><span class="tag">Pentesting</span><span class="tag">Sandbox</span><span class="tag">Linux</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pi Mini Nube -->
+    <div class="project-card" data-tilt>
+      <div class="project-img">
+        <a href="https://github.com/Ely-Retr0/PCS" target="_blank"><img src="pi-cloud.png" alt="Pi Cloud"></a>
+        <span class="project-status s-dev es">En desarrollo</span>
+        <span class="project-status s-dev en">In dev</span>
+      </div>
+      <div class="project-body">
+        <div class="project-name">PCS — Portable Cloud Server</div>
+        <p class="project-desc es">Raspberry Pi como servidor C2 con Docker, Kubernetes y Terraform. La Pi gestiona contenedores y delega la carga pesada al servidor gratuito de Oracle Cloud — infraestructura autosustentable en la palma de la mano.</p>
+        <p class="project-desc en">Raspberry Pi as a C2 server with Docker, Kubernetes and Terraform. The Pi manages containers and offloads heavy workloads to Oracle Cloud free tier — self-sustaining infrastructure in your pocket.</p>
+        <div class="project-tags">
+          <span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">Terraform</span><span class="tag">Oracle Cloud</span><span class="tag">Raspberry Pi</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESEC -->
+    <div class="project-card ora-card" data-tilt>
+      <div class="project-img">
+        <a href="https://github.com/Ely-Retr0/ESEC" target="_blank"><img src="esec.png" alt="ESEC"></a>
+        <span class="project-status s-con es">Concepto</span>
+        <span class="project-status s-con en">Concept</span>
+      </div>
+      <div class="project-body">
+        <div class="project-name">ESEC</div>
+        <p class="project-desc es">Empresa de seguridad para mantenimiento de equipos, auditoría de red y administración o creación de servicios en la nube.</p>
+        <p class="project-desc en">Security company for equipment maintenance, network auditing, and cloud service administration or creation.</p>
+        <div class="project-tags">
+          <span class="tag ora">Startup</span><span class="tag ora">Cloud</span><span class="tag ora">Auditing</span><span class="tag ora">Security</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dust -->
+    <div class="project-card red-card" data-tilt>
+      <div class="project-img">
+        <a href="https://github.com/Ely-Retr0/Dust" target="_blank"><img src="dust.png" alt="Dust"></a>
+        <span class="project-status s-dev es">Investigación</span>
+        <span class="project-status s-dev en">Research</span>
+      </div>
+      <div class="project-body">
+        <div class="project-name">Dust</div>
+        <p class="project-desc es">Investigación de malware avanzado para análisis de persistencia a nivel de silicio. Proyecto de investigación en ciberseguridad ofensiva.</p>
+        <p class="project-desc en">Advanced malware research for silicon-level persistence analysis. Offensive cybersecurity research project.</p>
+        <div class="project-tags">
+          <span class="tag red">Research</span><span class="tag red">Offensive Sec</span><span class="tag red">Low-level</span><span class="tag red">C</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Regolith -->
+    <div class="project-card" data-tilt>
+      <div class="project-img">
+        <a href="https://youtube.com/@RGLTHCS" target="_blank"><img src="regolith.png" alt="Regolith"></a>
+        <span class="project-status s-done es">Activo</span>
+        <span class="project-status s-done en">Active</span>
+      </div>
+      <div class="project-body">
+        <div class="project-name">Regolith</div>
+        <p class="project-desc es">Canal de YouTube de ciberseguridad, aprendizaje e historia. Contenido educativo accesible sobre el mundo de la seguridad informática.</p>
+        <p class="project-desc en">YouTube channel covering cybersecurity, learning, and history. Accessible educational content about information security.</p>
+        <div class="project-tags">
+          <span class="tag">YouTube</span><span class="tag">Education</span><span class="tag">@RGLTHCS</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROYECTOS SECUNDARIOS -->
+<section id="secondary-projects">
+  <div class="section-header">
+    <span class="section-label">02b</span>
+    <h2 class="section-title es">Proyectos Secundarios</h2>
+    <h2 class="section-title en">Secondary Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <!-- Teoría del Puntero Ciego — placeholder -->
+    <div class="coming-soon-card">
+      <div class="coming-soon-inner">
+        <div class="cs-title es">Teoría del Puntero Ciego</div>
+        <div class="cs-title en">Blind Pointer Theory</div>
+        <div class="cs-sub" style="margin-top:8px; color:var(--accent3);">[ próximamente / coming soon ]</div>
+      </div>
+    </div>
+
+    <!-- Espacio para más proyectos secundarios -->
+    <div class="coming-soon-card">
+      <div class="coming-soon-inner">
+        <div class="cs-title es" style="color:var(--text-dim);">+ Más proyectos en camino</div>
+        <div class="cs-title en" style="color:var(--text-dim);">+ More projects on the way</div>
+        <div class="cs-sub" style="margin-top:8px;">[ work in progress ]</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-label">03</span>
+    <h2 class="section-title">Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-wrap reveal">
+    <div>
+      <div class="skills-col-title es">Tecnologías & Herramientas</div>
+      <div class="skills-col-title en">Technologies & Tools</div>
+      <div class="skills-grid">
+        <div class="skill-item"><span class="skill-dot"></span>C</div>
+        <div class="skill-item"><span class="skill-dot"></span>Python</div>
+        <div class="skill-item"><span class="skill-dot"></span>Java</div>
+        <div class="skill-item"><span class="skill-dot"></span>HTML / Web</div>
+        <div class="skill-item"><span class="skill-dot"></span>MySQL</div>
+        <div class="skill-item"><span class="skill-dot red"></span>MITRE ATT&CK</div>
+        <div class="skill-item"><span class="skill-dot"></span>Linux / CLI</div>
+        <div class="skill-item"><span class="skill-dot ora"></span>AWS / Azure / GCP</div>
+        <div class="skill-item"><span class="skill-dot red"></span>Network Security</div>
+        <div class="skill-item"><span class="skill-dot red"></span>Purple Team Ops</div>
+        <div class="skill-item"><span class="skill-dot ora"></span>Docker / Kubernetes</div>
+        <div class="skill-item"><span class="skill-dot ora"></span>Terraform</div>
+        <div class="skill-item"><span class="skill-dot"></span>Raspberry Pi / IoT</div>
+        <div class="skill-item"><span class="skill-dot"></span>AI / ML Concepts</div>
+      </div>
+    </div>
+    <div>
+      <div class="skills-col-title es">En proceso de aprender</div>
+      <div class="skills-col-title en">Currently learning</div>
+      <div class="skills-grid">
+        <div class="skill-item"><span class="skill-dot ora"></span>Rust</div>
+        <div class="skill-item"><span class="skill-dot ora"></span>Lang Design / Compilers</div>
+        <div class="skill-item"><span class="skill-dot red"></span>Malware Analysis</div>
+        <div class="skill-item"><span class="skill-dot"></span>OS Development</div>
+      </div>
+    </div>
+  </div>
+  <div class="soft-box reveal">
+    <p class="es"><strong style="color:var(--accent);">Soft skills:</strong> Extremadamente curioso e investigador por naturaleza. Analítico y metódico al resolver problemas. Persistente — no paro hasta que las cosas funcionan. Aprendizaje autodidacta constante. Visión multidisciplinaria combinando seguridad, desarrollo y diseño.</p>
+    <p class="en"><strong style="color:var(--accent);">Soft skills:</strong> Extremely curious and research-driven by nature. Analytical and methodical when solving problems. Persistent — I don't stop until things work. Constant self-directed learning. Multidisciplinary vision combining security, development, and design.</p>
+  </div>
+</section>
+
+<!-- LANGUAGES / IDIOMAS -->
+<section id="langs">
+  <div class="section-header">
+    <span class="section-label">04</span>
+    <h2 class="section-title es">Idiomas</h2>
+    <h2 class="section-title en">Languages</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="lang-grid reveal">
+    <div class="lang-card">
+      <div class="lang-name es">Español</div>
+      <div class="lang-name en">Spanish</div>
+      <div class="lang-level lv-native es">Nativo</div>
+      <div class="lang-level lv-native en">Native</div>
+      <div class="lang-bar"><div class="lang-fill fill-native"></div></div>
+    </div>
+    <div class="lang-card">
+      <div class="lang-name es">Inglés</div>
+      <div class="lang-name en">English</div>
+      <div class="lang-level lv-adv es">Avanzado</div>
+      <div class="lang-level lv-adv en">Advanced</div>
+      <div class="lang-bar"><div class="lang-fill fill-adv"></div></div>
+    </div>
+    <div class="lang-card">
+      <div class="lang-name es">Portugués</div>
+      <div class="lang-name en">Portuguese</div>
+      <div class="lang-level lv-basic es">Básico</div>
+      <div class="lang-level lv-basic en">Basic</div>
+      <div class="lang-bar"><div class="lang-fill fill-basic"></div></div>
+    </div>
+    <div class="lang-card">
+      <div class="lang-name es">Alemán</div>
+      <div class="lang-name en">German</div>
+      <div class="lang-level lv-basic es">Básico</div>
+      <div class="lang-level lv-basic en">Basic</div>
+      <div class="lang-bar"><div class="lang-fill fill-basic"></div></div>
+    </div>
+    <div class="lang-card">
+      <div class="lang-name es">Italiano</div>
+      <div class="lang-name en">Italian</div>
+      <div class="lang-level lv-beg es">Principiante</div>
+      <div class="lang-level lv-beg en">Beginner</div>
+      <div class="lang-bar"><div class="lang-fill fill-beg"></div></div>
+    </div>
+    <div class="lang-card">
+      <div class="lang-name es">Francés</div>
+      <div class="lang-name en">French</div>
+      <div class="lang-level lv-basic es">Básico</div>
+      <div class="lang-level lv-basic en">Basic</div>
+      <div class="lang-bar"><div class="lang-fill fill-basic"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="section-header">
+    <span class="section-label">05</span>
+    <h2 class="section-title es">Certificaciones</h2>
+    <h2 class="section-title en">Certifications</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="cert-grid reveal">
+    <div>
+      <div class="cert-col-title es">✓ Completadas</div>
+      <div class="cert-col-title en">✓ Completed</div>
+
+      <div class="cert-item">
+        <div class="cert-icon" style="padding:0;overflow:hidden;"><a href="https://www.credly.com/badges/4da55925-338a-4a91-9c0f-edeaa9820e39/public_url" target="_blank"><img src="introduction-to-cybersecurity.png" alt="badge" style="width:34px;height:34px;object-fit:contain;border-radius:3px;background:var(--bg3);padding:2px;"></a></div>
+        <div><a href="https://www.credly.com/badges/4da55925-338a-4a91-9c0f-edeaa9820e39/public_url" target="_blank" style="display:block;text-decoration:none"><div class="cert-name" style="color:var(--accent)">Introduction to Cybersecurity ↗</div></a><div class="cert-issuer">Cisco</div></div>
+        <span class="cert-badge bd-done es">Completado</span><span class="cert-badge bd-done en">Done</span>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon" style="padding:0;overflow:hidden;"><a href="https://www.credly.com/badges/67d59d78-2a77-4341-b1f9-a9b8c0268167/public_url" target="_blank"><img src="industrial-cybersecurity-essentials.png" alt="badge" style="width:34px;height:34px;object-fit:contain;border-radius:3px;background:var(--bg3);padding:2px;"></a></div>
+        <div><a href="https://www.credly.com/badges/67d59d78-2a77-4341-b1f9-a9b8c0268167/public_url" target="_blank" style="display:block;text-decoration:none"><div class="cert-name" style="color:var(--accent)">Industrial Cybersecurity Essentials ↗</div></a><div class="cert-issuer">Cisco</div></div>
+        <span class="cert-badge bd-done es">Completado</span><span class="cert-badge bd-done en">Done</span>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon" style="padding:0;overflow:hidden;"><a href="https://www.credly.com/badges/281f80c8-8000-4743-a4ff-5d7b554c9435/public_url" target="_blank"><img src="junior-cybersecurity-analyst.png" alt="badge" style="width:34px;height:34px;object-fit:contain;border-radius:3px;background:var(--bg3);padding:2px;"></a></div>
+        <div><a href="https://www.credly.com/badges/281f80c8-8000-4743-a4ff-5d7b554c9435/public_url" target="_blank" style="display:block;text-decoration:none"><div class="cert-name" style="color:var(--accent)">Junior Cybersecurity Analyst Path ↗</div></a><div class="cert-issuer">Cisco</div></div>
+        <span class="cert-badge bd-done es">Completado</span><span class="cert-badge bd-done en">Done</span>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon" style="padding:0;overflow:hidden;"><a href="https://www.credly.com/badges/0d50230a-af07-4c60-a3d5-d0d6283fabe5/public_url" target="_blank"><img src="python-essentials-1.png" alt="badge" style="width:34px;height:34px;object-fit:contain;border-radius:3px;background:var(--bg3);padding:2px;"></a></div>
+        <div><a href="https://www.credly.com/badges/0d50230a-af07-4c60-a3d5-d0d6283fabe5/public_url" target="_blank" style="display:block;text-decoration:none"><div class="cert-name" style="color:var(--accent)">Python Essentials 1 & 2 ↗</div></a><div class="cert-issuer">Cisco</div></div>
+        <span class="cert-badge bd-done es">Completado</span><span class="cert-badge bd-done en">Done</span>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon" style="padding:0;overflow:hidden;"><a href="https://www.credly.com/badges/9f96e4a5-443a-4c0d-84d6-8c78cc93b207/public_url" target="_blank"><img src="google-cloud-cybersecurity-certificate.png" alt="badge" style="width:34px;height:34px;object-fit:contain;border-radius:3px;background:var(--bg3);padding:2px;"></a></div>
+        <div><a href="https://www.credly.com/badges/9f96e4a5-443a-4c0d-84d6-8c78cc93b207/public_url" target="_blank" style="display:block;text-decoration:none"><div class="cert-name" style="color:var(--accent)">Google Cloud Cybersecurity ↗</div></a><div class="cert-issuer">Coursera / Google</div></div>
+        <span class="cert-badge bd-done es">Completado</span><span class="cert-badge bd-done en">Done</span>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon" style="padding:0;overflow:hidden;"><a href="https://www.credly.com/badges/8e6324da-4a64-41f4-86b0-03d3363d2fd0/public_url" target="_blank"><img src="google-cybersecurity-professional-certificate-v-2.png" alt="badge" style="width:34px;height:34px;object-fit:contain;border-radius:3px;background:var(--bg3);padding:2px;"></a></div>
+        <div><a href="https://www.credly.com/badges/8e6324da-4a64-41f4-86b0-03d3363d2fd0/public_url" target="_blank" style="display:block;text-decoration:none"><div class="cert-name" style="color:var(--accent)">Google Cybersecurity Professional Certificate v2 ↗</div></a><div class="cert-issuer">Coursera / Google</div></div>
+        <span class="cert-badge bd-done es">Completado</span><span class="cert-badge bd-done en">Done</span>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon" style="padding:0;overflow:hidden;"><a href="https://www.credly.com/badges/5ca1239b-72ad-4acc-8e86-3cc6f6ba0534/public_url" target="_blank"><img src="ibm-ai-product-manager-professional-certificate.png" alt="badge" style="width:34px;height:34px;object-fit:contain;border-radius:3px;background:var(--bg3);padding:2px;"></a></div>
+        <div><a href="https://www.credly.com/badges/5ca1239b-72ad-4acc-8e86-3cc6f6ba0534/public_url" target="_blank" style="display:block;text-decoration:none"><div class="cert-name" style="color:var(--accent)">IBM AI Product Manager Professional Certificate ↗</div></a><div class="cert-issuer">Coursera / IBM</div></div>
+        <span class="cert-badge bd-done es">Completado</span><span class="cert-badge bd-done en">Done</span>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon" style="padding:0;overflow:hidden;"><a href="https://www.credly.com/badges/84a03d38-a90b-4b45-9f0e-82955b83758b/public_url" target="_blank"><img src="ibm-cybersecurity-analyst.png" alt="badge" style="width:34px;height:34px;object-fit:contain;border-radius:3px;background:var(--bg3);padding:2px;"></a></div>
+        <div><a href="https://www.credly.com/badges/84a03d38-a90b-4b45-9f0e-82955b83758b/public_url" target="_blank" style="display:block;text-decoration:none"><div class="cert-name" style="color:var(--accent)">IBM Cybersecurity Analyst Professional v2 ↗</div></a><div class="cert-issuer">Coursera / IBM</div></div>
+        <span class="cert-badge bd-done es">Completado</span><span class="cert-badge bd-done en">Done</span>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon" style="padding:0;overflow:hidden;"><a href="https://coursera.org/share/55f94c78d536ef37c4ffb6747e8a7844" target="_blank"><img src="aws-csa.png" alt="badge" style="width:34px;height:34px;object-fit:contain;border-radius:3px;background:var(--bg3);padding:2px;"></a></div>
+        <div><a href="https://coursera.org/share/55f94c78d536ef37c4ffb6747e8a7844" target="_blank" style="display:block;text-decoration:none"><div class="cert-name" style="color:var(--accent)">AWS Cloud Support Associate ↗</div></a><div class="cert-issuer">Coursera / Amazon</div></div>
+        <span class="cert-badge bd-done es">Completado</span><span class="cert-badge bd-done en">Done</span>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon" style="padding:0;overflow:hidden;"><a href="https://www.credly.com/badges/e3ddad2f-51f3-4dc1-ad1a-31220356821a/public_url" target="_blank"><img src="project-management-fundamentals.png" alt="badge" style="width:34px;height:34px;object-fit:contain;border-radius:3px;background:var(--bg3);padding:2px;"></a></div>
+        <div><a href="https://www.credly.com/badges/e3ddad2f-51f3-4dc1-ad1a-31220356821a/public_url" target="_blank" style="display:block;text-decoration:none"><div class="cert-name" style="color:var(--accent)">Project Management Fundamentals ↗</div></a><div class="cert-issuer">IBM SkillsBuild</div></div>
+        <span class="cert-badge bd-done es">Completado</span><span class="cert-badge bd-done en">Done</span>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon" style="padding:0;overflow:hidden;"><a href="https://www.credly.com/badges/567daa93-f5da-4aa6-b2ca-59e36fd23b68/public_url" target="_blank"><img src="user-experience-design-fundamentals.png" alt="badge" style="width:34px;height:34px;object-fit:contain;border-radius:3px;background:var(--bg3);padding:2px;"></a></div>
+        <div><a href="https://www.credly.com/badges/567daa93-f5da-4aa6-b2ca-59e36fd23b68/public_url" target="_blank" style="display:block;text-decoration:none"><div class="cert-name" style="color:var(--accent)">User Experience Design Fundamentals ↗</div></a><div class="cert-issuer">IBM SkillsBuild</div></div>
+        <span class="cert-badge bd-done es">Completado</span><span class="cert-badge bd-done en">Done</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="cert-col-title es">⟳ En progreso</div>
+      <div class="cert-col-title en">⟳ In progress</div>
+      <div class="cert-item">
+        <div class="cert-icon">PALO</div>
+        <div><div class="cert-name">Palo Alto Cybersecurity</div><div class="cert-issuer">Palo Alto Networks</div></div>
+        <span class="cert-badge bd-prog es">En curso</span><span class="cert-badge bd-prog en">In progress</span>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">FORTI</div>
+        <div><div class="cert-name">Fortinet Cybersecurity</div><div class="cert-issuer">Fortinet</div></div>
+        <span class="cert-badge bd-prog es">En curso</span><span class="cert-badge bd-prog en">In progress</span>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">AZURE</div>
+        <div><div class="cert-name">Microsoft Cloud (Azure)</div><div class="cert-issuer">Coursera / Microsoft</div></div>
+        <span class="cert-badge bd-prog es">En curso</span><span class="cert-badge bd-prog en">In progress</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header">
+    <span class="section-label">06</span>
+    <h2 class="section-title es">Educación</h2>
+    <h2 class="section-title en">Education</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-list reveal">
+    <div class="edu-card">
+      <div>
+        <div class="edu-school es">Tecnólogo Profesional en Sistemas Informáticos</div>
+        <div class="edu-school en">TPSI — Professional Technologist in Computer Systems</div>
+        <div class="edu-degree es">Carrera técnica · Escuela Politécnica de Guadalajara</div>
+        <div class="edu-degree en">Technical degree · Escuela Politécnica de Guadalajara</div>
+        <div class="edu-meta">Guadalajara, Jalisco, México · 2023 – presente</div>
+      </div>
+      <div class="edu-prog">
+        <div class="edu-prog-num">7°</div>
+        <div class="edu-prog-lbl es">de 8 semestres</div>
+        <div class="edu-prog-lbl en">of 8 semesters</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTF PARTICIPATIONS -->
+<section id="ctf">
+  <div class="section-header">
+    <span class="section-label">07</span>
+    <h2 class="section-title es">Participaciones en CTFs</h2>
+    <h2 class="section-title en">CTF Participations</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid reveal">
+
+    <div class="project-card" data-tilt>
+      <div class="project-img">
+        <a href="ctf1.pdf" target="_blank" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;text-decoration:none;position:relative;overflow:hidden;background:linear-gradient(135deg,#0a0f0b 0%,#0f1a10 40%,#0a1a0a 100%);">
+          <!-- grid bg -->
+          <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(57,255,20,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,0.07) 1px,transparent 1px);background-size:20px 20px;"></div>
+          <!-- content -->
+          <div style="position:relative;text-align:center;padding:16px;">
+            <div style="font-family:'Share Tech Mono',monospace;font-size:22px;font-weight:900;color:#39ff14;letter-spacing:0.08em;text-shadow:0 0 18px rgba(57,255,20,0.7);line-height:1.1;">VISHWA<br>CTF</div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#dc143c;letter-spacing:0.2em;margin-top:6px;text-transform:uppercase;">2026</div>
+            <div style="margin-top:10px;padding:4px 12px;border:1px solid #39ff14;border-radius:2px;display:inline-block;">
+              <span style="font-family:'Share Tech Mono',monospace;font-size:13px;color:#39ff14;letter-spacing:0.1em;">RANK <strong>#307</strong></span>
+            </div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(57,255,20,0.5);margin-top:8px;letter-spacing:0.15em;">CyberCell VIT · Ver certificado ↗</div>
+          </div>
+        </a>
+        <span class="project-status s-done es">Rank #307</span>
+        <span class="project-status s-done en">Rank #307</span>
+      </div>
+      <div class="project-body">
+        <div class="project-name">VishwaCTF 2026</div>
+        <p class="project-desc es">Competencia internacional CTF organizada por <strong style="color:var(--accent3)">CyberCell VIT</strong>. Posición <strong style="color:var(--accent)">#307 de más de 1,100 competidores</strong> bajo el equipo <strong style="color:var(--accent2)">@[TL4L0C]</strong>. Retos de ciberseguridad ofensiva, criptografía, ingeniería inversa y más.</p>
+        <p class="project-desc en">International CTF competition organized by <strong style="color:var(--accent3)">CyberCell VIT</strong>. Ranked <strong style="color:var(--accent)">#307 out of 1,100+ competitors</strong> under team <strong style="color:var(--accent2)">@[TL4L0C]</strong>. Challenges covering offensive security, cryptography, reverse engineering, and more.</p>
+        <div class="project-tags">
+          <span class="tag red">CTF</span>
+          <span class="tag">VishwaCTF 2026</span>
+          <span class="tag">CyberCell VIT</span>
+          <span class="tag ora">Top 300</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Placeholder para futuros CTFs -->
+    <div class="coming-soon-card">
+      <div class="coming-soon-inner">
+        <div class="cs-title es" style="color:var(--text-dim);">+ Más CTFs por venir</div>
+        <div class="cs-title en" style="color:var(--text-dim);">+ More CTFs incoming</div>
+        <div class="cs-sub" style="margin-top:8px; color:var(--accent3);">[ in progress ]</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <span class="section-label">08</span>
+    <h2 class="section-title es">Contacto</h2>
+    <h2 class="section-title en">Contact</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-grid reveal">
+    <a href="mailto:elias090595@gmail.com" class="contact-card">
+      <div class="contact-icon">✉</div>
+      <div><div class="contact-label">Email</div><div class="contact-value">elias090595@gmail.com</div></div>
+    </a>
+    <a href="https://github.com/Ely-Retr0" target="_blank" class="contact-card">
+      <div class="contact-icon" style="font-size:16px">{ }</div>
+      <div><div class="contact-label">GitHub</div><div class="contact-value">Ely-Retr0</div></div>
+    </a>
+    <a href="https://linkedin.com/in/elias-diaz-gutierrez" target="_blank" class="contact-card">
+      <div class="contact-icon" style="font-size:14px;font-weight:700">in</div>
+      <div><div class="contact-label">LinkedIn</div><div class="contact-value">Elias Diaz Gutierrez</div></div>
+    </a>
+    <a href="https://youtube.com/@RGLTHCS" target="_blank" class="contact-card">
+      <div class="contact-icon">▶</div>
+      <div><div class="contact-label">YouTube · Regolith</div><div class="contact-value">@RGLTHCS</div></div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<!-- DIPLOMA -->
+<section id="diploma" style="padding:80px 5vw; border-top:1px solid var(--border);">
+  <div class="section-header">
+    <span class="section-label">09</span>
+    <h2 class="section-title es">Aval Académico</h2>
+    <h2 class="section-title en">Academic Endorsement</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="reveal" style="
+    background: linear-gradient(135deg, #080f09 0%, #0a150b 40%, #060d07 100%);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(57,255,20,0.08), inset 0 0 80px rgba(57,255,20,0.03);
+  ">
+
+    <!-- corner ornaments -->
+    <div style="position:absolute;top:16px;left:16px;width:32px;height:32px;border-top:2px solid var(--accent);border-left:2px solid var(--accent);opacity:0.6;"></div>
+    <div style="position:absolute;top:16px;right:16px;width:32px;height:32px;border-top:2px solid var(--accent);border-right:2px solid var(--accent);opacity:0.6;"></div>
+    <div style="position:absolute;bottom:16px;left:16px;width:32px;height:32px;border-bottom:2px solid var(--accent);border-left:2px solid var(--accent);opacity:0.6;"></div>
+    <div style="position:absolute;bottom:16px;right:16px;width:32px;height:32px;border-bottom:2px solid var(--accent);border-right:2px solid var(--accent);opacity:0.6;"></div>
+
+    <!-- grid bg -->
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(57,255,20,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,0.03) 1px,transparent 1px);background-size:30px 30px;pointer-events:none;"></div>
+
+    <!-- header -->
+    <div style="text-align:center;margin-bottom:36px;position:relative;">
+      <div style="font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:0.3em;text-transform:uppercase;margin-bottom:10px;">Certificate of Knowledge & Expertise</div>
+      <div style="font-family:var(--display);font-size:clamp(22px,3.5vw,36px);font-weight:800;color:var(--text-bright);letter-spacing:-0.01em;line-height:1.2;margin-bottom:10px;">
+        Cybersecurity, Cloud Computing<br>& Software Development Professional
+      </div>
+      <div style="width:80px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin:16px auto;"></div>
+      <div style="font-family:var(--mono);font-size:12px;color:var(--text-dim);letter-spacing:0.1em;">
+        <span class="es">Este diploma certifica que</span>
+        <span class="en">This diploma certifies that</span>
+      </div>
+      <div style="font-family:var(--display);font-size:clamp(28px,4vw,48px);font-weight:800;color:var(--accent);text-shadow:0 0 30px rgba(57,255,20,0.4);margin:8px 0;letter-spacing:-0.02em;">
+        Elias Diaz Gutierrez
+      </div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:0.1em;">
+        <span class="es">ha demostrado conocimientos avalados por las siguientes instituciones</span>
+        <span class="en">has demonstrated knowledge endorsed by the following institutions</span>
+      </div>
+    </div>
+
+    <!-- logos grid -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:16px;margin-bottom:36px;position:relative;">
+
+      <!-- Cisco Netacad -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Cisco_logo_blue_2016.svg/320px-Cisco_logo_blue_2016.svg.png" alt="Cisco" style="height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.85;">
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">NETACAD</span>
+      </div>
+
+      <!-- AWS -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/320px-Amazon_Web_Services_Logo.svg.png" alt="AWS" style="height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.85;">
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">AWS</span>
+      </div>
+
+      <!-- Coursera -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Coursera-Logo_600x600.svg/320px-Coursera-Logo_600x600.svg.png" alt="Coursera" style="height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.85;">
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">COURSERA</span>
+      </div>
+
+      <!-- TryHackMe -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent2)'" onmouseout="this.style.borderColor='var(--border)'">
+        <img src="https://assets.tryhackme.com/img/THMlogo.png" alt="TryHackMe" style="height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.85;">
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">TRYHACKME</span>
+      </div>
+
+      <!-- HackTheBox -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+        <img src="https://www.hackthebox.com/images/landingv3/favicon/android-icon-192x192.png" alt="HackTheBox" style="height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.85;">
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">HACKTHEBOX</span>
+      </div>
+
+      <!-- picoCTF -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent2)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="font-family:var(--display);font-size:18px;font-weight:800;color:#dc143c;letter-spacing:-0.02em;">picoCTF</div>
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">CMU · PICOCTF</span>
+      </div>
+
+      <!-- IBM SkillsBuild -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IBM_logo.svg/320px-IBM_logo.svg.png" alt="IBM" style="height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.85;">
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">IBM SKILLSBUILD</span>
+      </div>
+
+      <!-- Google -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/320px-Google_2015_logo.svg.png" alt="Google" style="height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.85;">
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">GOOGLE</span>
+      </div>
+
+      <!-- Google Cloud -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Google_Cloud_logo.svg/320px-Google_Cloud_logo.svg.png" alt="Google Cloud" style="height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.85;">
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">GOOGLE CLOUD</span>
+      </div>
+
+      <!-- Azure -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/320px-Microsoft_Azure.svg.png" alt="Azure" style="height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.85;">
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">MICROSOFT AZURE</span>
+      </div>
+
+      <!-- Fortinet -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent2)'" onmouseout="this.style.borderColor='var(--border)'">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Fortinet_logo.svg/320px-Fortinet_logo.svg.png" alt="Fortinet" style="height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.85;">
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">FORTINET</span>
+      </div>
+
+      <!-- Palo Alto -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent2)'" onmouseout="this.style.borderColor='var(--border)'">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Palo_Alto_Networks_logo.svg/320px-Palo_Alto_Networks_logo.svg.png" alt="Palo Alto" style="height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.85;">
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">PALO ALTO</span>
+      </div>
+
+      <!-- Oracle -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent2)'" onmouseout="this.style.borderColor='var(--border)'">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Oracle_logo.svg/320px-Oracle_logo.svg.png" alt="Oracle" style="height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.85;">
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">ORACLE UNIVERSITY</span>
+      </div>
+
+      <!-- UdG -->
+      <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/UDG_logo.svg/320px-UDG_logo.svg.png" alt="UdG" style="height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.85;">
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-align:center;">UDG</span>
+      </div>
+
+    </div>
+
+    <!-- footer del diploma -->
+    <div style="text-align:center;position:relative;">
+      <div style="width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border),var(--accent),var(--border),transparent);margin-bottom:20px;"></div>
+      <div style="display:flex;justify-content:center;gap:48px;flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="font-family:var(--display);font-size:16px;font-weight:700;color:var(--text-bright);border-bottom:1px solid var(--text-dim);padding-bottom:4px;margin-bottom:4px;">Elias Diaz Gutierrez</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.15em;text-transform:uppercase;">Titular</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--display);font-size:16px;font-weight:700;color:var(--accent);border-bottom:1px solid var(--text-dim);padding-bottom:4px;margin-bottom:4px;">2023 – 2026</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.15em;text-transform:uppercase;">Período</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--display);font-size:16px;font-weight:700;color:var(--text-bright);border-bottom:1px solid var(--text-dim);padding-bottom:4px;margin-bottom:4px;">Guadalajara, MX</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.15em;text-transform:uppercase;">Lugar</div>
+        </div>
+      </div>
+      <div style="margin-top:20px;font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:0.2em;">
+        // VERIFY: <span style="color:var(--accent);">ely-retr0.github.io</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>Elias Diaz Gutierrez · <span class="acc">Think outside the</span> <span class="acc-r">fierrewall</span></p>
+  <p class="es">Diseñado y construido por <span class="acc">Ely-Retr0</span> · Guadalajara, MX</p>
+  <p class="en">Designed & built by <span class="acc">Ely-Retr0</span> · Guadalajara, MX</p>
+</footer>
+
+<script>
+// ── LANG TOGGLE ──
+function setLang(lang) {
+  document.body.className = 'lang-' + lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+}
+
+// ── SCROLL REVEAL ──
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// ── 3D TILT ON PROJECT CARDS ──
+document.querySelectorAll('[data-tilt]').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / (rect.width / 2);
+    const dy = (e.clientY - cy) / (rect.height / 2);
+    card.style.transform = `rotateY(${dx * 8}deg) rotateX(${-dy * 8}deg) translateZ(6px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// ── ANIMATE LANGUAGE BARS ON SCROLL ──
+const langObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.lang-fill').forEach(bar => {
+        bar.style.width = bar.classList.contains('fill-native') ? '100%'
+          : bar.classList.contains('fill-adv')    ? '80%'
+          : bar.classList.contains('fill-basic')  ? '40%'
+          : '20%';
+      });
+      langObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+const langSection = document.getElementById('langs');
+if (langSection) {
+  // reset bars to 0 initially
+  langSection.querySelectorAll('.lang-fill').forEach(b => b.style.width = '0');
+  langObs.observe(langSection);
+}
+</script>
+</body>
+</html>
